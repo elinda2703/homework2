@@ -1,6 +1,6 @@
 import csv
 try:
-    with open(r"vstup.csv", encoding="utf-8") as csvinfile, open(r"vystup_7denni.csv", "w", encoding="utf-8", newline="") as csvoutfile_week, open(r"vystup_rok.csv", "w", encoding="utf-8", newline="") as csvoutfile_year:
+    with open("vstup.csv", encoding="utf-8") as csvinfile, open("vystup_7denni.csv", "w", encoding="utf-8", newline="") as csvoutfile_week, open("vystup_rok.csv", "w", encoding="utf-8", newline="") as csvoutfile_year:
         reader = csv.reader(csvinfile, delimiter=",")
         writer_week = csv.writer(csvoutfile_week)
         writer_year = csv.writer(csvoutfile_year)
@@ -55,7 +55,7 @@ try:
                 writer_year.writerow(prefix + first_date_year +
                                      [round(prutok_sum_year/days_in_year, 4)])
                 prutok_sum_year = 0
-                first_date_year = row[2:5]
+                first_date_year = row[2:6]
                 days_in_year = 0
 
             # prida den na konci cyklu
@@ -76,6 +76,11 @@ try:
         print(
             f"Minimální průtok nastal {min_prutok[2]}.{min_prutok[1]}.{min_prutok[0]}, tento průtok byl {float(min_prutok[3])}.")
 
+        if len(chyby_v_prutoku)!=0:
+            print(f"Nekladný průtok nastal ve dnech {chyby_v_prutoku}.")
+
 
 except FileNotFoundError:
     print("Neplatný vstup, soubor nenalezen")
+except IndexError:
+    print ("chyba ve vstupních datech")
